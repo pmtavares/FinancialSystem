@@ -23,6 +23,7 @@ namespace Model.Entity
         public string phone { get; set; }
 
         [Display(Name = "PPS")]
+        [Required(ErrorMessage = "Field PPS is required")]
         public string pps { get; set; }
 
         public Client() { }

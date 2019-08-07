@@ -1,10 +1,9 @@
-﻿using Model.Dao;
+﻿using Model.BUS.Util;
+using Model.Dao;
 using Model.Entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Model.BUS
 {
@@ -12,13 +11,15 @@ namespace Model.BUS
     {
 
         private readonly ClientDao _clientDao;
+        private readonly Messages<Client> _message;
 
-        public ClientBus(ClientDao client)
+        public ClientBus()
         {
-            _clientDao = client;
+            _clientDao = new ClientDao();
+            _message = new Messages<Client>("Client");
         }
 
-        public void create(Client client)
+        public string create(Client client)
         {
             bool verification = true;
 
@@ -27,7 +28,7 @@ namespace Model.BUS
             if (name == null)
             {
                 //Message here
-                return;
+                return _message.ErrorMessageRegister(20);
             }
             else
             {
@@ -36,7 +37,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //message here
-                    return;
+                    return _message.ErrorMessageRegister(2);
                 }
 
             }
@@ -46,7 +47,7 @@ namespace Model.BUS
             if (address == null)
             {
                 //Message here
-                return;
+                return _message.ErrorMessageRegister(60);
             }
             else
             {
@@ -55,7 +56,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //Message here
-                    return;
+                    return _message.ErrorMessageRegister(6);
                 }
 
             }
@@ -65,7 +66,7 @@ namespace Model.BUS
             if (phone == null)
             {
                 //Message here
-                return;
+                return _message.ErrorMessageRegister(3);
             }
             else
             {
@@ -74,7 +75,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //Message here
-                    return;
+                    return _message.ErrorMessageRegister(35);
                 }
 
             }
@@ -88,26 +89,26 @@ namespace Model.BUS
             if (!verification)
             {
                 //Message here
-                return;
+                return _message.ErrorMessageRegister(8);
             }
-            //end validar duplicidade
+            //end validate duplication
 
-            //begin verificar duplicidade cpf retorna estado=8
+            
             objClient = new Client();
             objClient.pps = client.pps;
 
-            verification = _clientDao.findClientByPps(objClient);// !objClienteDao.findClientePorcpf(objCliente1);
+            verification = !_clientDao.findClientByPps(objClient);
             if (!verification)
             {
                 //Message here
-                return;
+                return _message.ErrorMessageRegister(0);
             }
             //end validate pps 
 
             //If there is no error
             //Message here
-            _clientDao.createSP(objClient);
-            return;
+            _clientDao.createSP(client);
+            return _message.CreatedMessage("Client created!");
         }
 
         public void update(Client client)
@@ -200,7 +201,7 @@ namespace Model.BUS
         {
             bool verification = true;
 
-            //verificando se existe
+            //verifying if exists
             Client objClient = new Client();
             objClient.idClient = client.idClient;
 

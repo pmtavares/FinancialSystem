@@ -1,0 +1,44 @@
+﻿@model List<Model.Entity.Client>
+
+@{
+    ViewBag.Title = "List of Clients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a href="">Reports</a>
+<h2 class="text-center text-success">List of Clients</h2>
+<div class="well well-sm"><a class="btn btn-primary" href="~/Client/Create">New</a></div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr class="bg-primary">
+            <th>Code</th>
+            <th>Name</th>
+            <th>PPS</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th colspan="3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+   
+    
+    @foreach (var objClient in Model)
+    {
+        <tr>
+
+            <td>@objClient.idClient</td>
+            <td>@objClient.name</td>
+            <td>@objClient.pps</td>
+            <td>@objClient.address</td>
+            <td>@objClient.phone</td>
+            <td><a class="btn btn-success" href="~/Cliente/Find/@objClient.idClient"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+            <td><a class="btn btn-info" href="~/Cliente/Update/@objClient.idClient"><span class="fa fa-edit"></span></a></td>
+            <td><a class="btn btn-danger" href="~/Cliente/Eliminar/@objClient.idClient"><span class="fa fa-book"></span></a></td>
+        </tr>
+    }
+    
+
+    </tbody>
+
+</table>
+

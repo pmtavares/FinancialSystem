@@ -22,8 +22,8 @@ namespace Model.Dao
         }
         public void create(Client client)
         {
-            string create = string.Format($"INSERT INTO client(name, address, phone, pps) " +
-                "VALUES ({1}, {2}, {3}, {4})", client.name, client.address, client.phone, client.pps);
+            string create = string.Format("INSERT INTO client(name, address, phone, pps) " +
+                "VALUES ({0}, {1}, {2}, {3})", client.name, client.address, client.phone, client.pps);
             try
             {
                 _command = new SqlCommand(create, _connectionDB.GetCon());
@@ -52,7 +52,7 @@ namespace Model.Dao
         public void createSP(Client client)
         {
             //"sp_addClient{1},{2},{3},{4}", + client.idClient + "," + client.name + ", " + client.address + "," + client.pps ;
-            string create = string.Format($"sp_addClient {1},{2},{3},{4}", client.name, client.address,client.phone, client.pps);
+            string create = string.Format("sp_addClient '{0}','{1}','{2}','{3}'", client.name, client.address,client.phone, client.pps);
             try
             {
                 _command = new SqlCommand(create, _connectionDB.GetCon());
@@ -126,7 +126,7 @@ namespace Model.Dao
         public bool find(Client client)
         {
             bool temRecords = false;
-            string find = string.Format($"SELECT * FROM client WHERE idClient = {1} ", client.idClient);
+            string find = string.Format("SELECT * FROM client WHERE idClient = {0} ", client.idClient);
             try
             {
                 _command = new SqlCommand(find, _connectionDB.GetCon());
@@ -143,7 +143,7 @@ namespace Model.Dao
                     client.pps = reader[4].ToString();
                 }
 
-                _command.ExecuteNonQuery();
+                
             }
             catch (SqlException sql)
             {
@@ -191,7 +191,7 @@ namespace Model.Dao
                     clientList.Add(clientReceived);
                 }
 
-                _command.ExecuteNonQuery();
+               
             }
             catch (SqlException sql)
             {
@@ -216,7 +216,7 @@ namespace Model.Dao
 
         public void update(Client client)
         {
-            string update = string.Format($"UPDATE client set name={1}, address={2}, phone={3}, pps={4}",
+            string update = string.Format("UPDATE client set name={0}, address={1}, phone={2}, pps={3}",
                 client.name, client.address, client.phone, client.pps);
 
             try
@@ -251,7 +251,7 @@ namespace Model.Dao
         public bool findClientByPps(Client client)
         {
             bool temRecord = false;
-            string find = string.Format($"SELECT * FROM client WHERE pps={1}", client.pps);
+            string find = string.Format("SELECT * FROM client WHERE pps={0}", client.pps);
 
             try
             {
@@ -270,7 +270,7 @@ namespace Model.Dao
                     client.pps = reader[4].ToString();
                 }
 
-                _command.ExecuteNonQuery();
+                
             }
             catch (SqlException sql)
             {
@@ -297,7 +297,7 @@ namespace Model.Dao
         {
 
             List<Client> clientList = new List<Client>();
-            string showAll = string.Format($"SELECT * FROM client WHERE name like %{1}% ORDER BY name ASC", name);
+            string showAll = string.Format($"SELECT * FROM client WHERE name like %{0}% ORDER BY name ASC", name);
             try
             {
                 _command = new SqlCommand(showAll, _connectionDB.GetCon());
@@ -319,7 +319,7 @@ namespace Model.Dao
                     clientList.Add(clientReceived);
                 }
 
-                _command.ExecuteNonQuery();
+                
             }
             catch (SqlException sql)
             {

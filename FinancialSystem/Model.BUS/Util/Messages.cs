@@ -39,7 +39,10 @@ namespace Model.BUS.Util
                 case 50:
                     return "Please put a PPS";
 
-
+                case 55:
+                    return "PPS must contain between 8 and 9 characteres";
+                case 58:
+                    return "PPS already exists";
                 case 60:
                     return "Please insert the address";
 

@@ -80,6 +80,24 @@ namespace Model.BUS
 
             }
 
+            string pps = client.pps;
+            if (pps == null)
+            {
+                //Message
+                return _message.ErrorMessageRegister(50); ;
+            }
+            else
+            {
+                pps = client.pps.Trim();
+                verification = pps.Length <= 9 && pps.Length > 7;
+                if (!verification)
+                {
+                    //Message
+                    return _message.ErrorMessageRegister(55);
+                }
+
+            }
+
             //Check for existing
             Client objClient= new Client();
             objClient.idClient = client.idClient;
@@ -101,14 +119,14 @@ namespace Model.BUS
             if (!verification)
             {
                 //Message here
-                return _message.ErrorMessageRegister(0);
+                return _message.ErrorMessageRegister(58);
             }
             //end validate pps 
 
             //If there is no error
             //Message here
             _clientDao.createSP(client);
-            return _message.CreatedMessage("Client created!");
+            return _message.CreatedMessage("Ok");
         }
 
         public void update(Client client)
@@ -173,6 +191,24 @@ namespace Model.BUS
             {
                 address = client.address.Trim();
                 verification = address.Length <= 50 && address.Length > 0;
+                if (!verification)
+                {
+                    //Message
+                    return;
+                }
+
+            }
+
+            string pps = client.pps;
+            if (pps == null)
+            {
+                //Message
+                return;
+            }
+            else
+            {
+                address = client.pps.Trim();
+                verification = pps.Length <= 9 && address.Length > 7;
                 if (!verification)
                 {
                     //Message

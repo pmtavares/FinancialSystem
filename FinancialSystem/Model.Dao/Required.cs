@@ -11,7 +11,7 @@ namespace Model.Dao
         void create(anyClass obj);
         void delete(anyClass obj);
         void update(anyClass obj);
-        bool find(anyClass obj);
+        anyClass find(long obj);
         List<anyClass> findAll();
     }
 }

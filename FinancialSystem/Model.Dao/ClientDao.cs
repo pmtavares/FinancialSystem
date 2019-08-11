@@ -81,14 +81,17 @@ namespace Model.Dao
         public void delete(Client client)
         {
             string resp;
-            SqlConnection SqlCon = new SqlConnection();
+            SqlConnection SqlCon = _connectionDB.GetCon();
             try
             {
+                SqlCon.Open();
+
+
                 _command = new SqlCommand();
 
-                SqlCommand SqlCmd = new SqlCommand();
+                //SqlCommand SqlCmd = new SqlCommand();
 
-                _command.Connection = _connectionDB.GetCon();
+                _command.Connection = SqlCon;
                 _command.CommandText = "sp_deleteClient";
                 _command.CommandType = CommandType.StoredProcedure;
 
@@ -98,10 +101,10 @@ namespace Model.Dao
                 ParId.SqlDbType = SqlDbType.Int;
                 ParId.Value = client.idClient;
 
-                SqlCmd.Parameters.Add(ParId);
+                _command.Parameters.Add(ParId);
 
                 //Execute the command
-                resp = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "Not deleted";
+                resp = _command.ExecuteNonQuery() == 1 ? "OK" : "Not deleted";
 
             }
             catch (SqlException sql)
@@ -123,20 +126,20 @@ namespace Model.Dao
             }
         }
 
-        public bool find(Client client)
+        public Client find(long clientId)
         {
-            bool temRecords = false;
-            string find = string.Format("SELECT * FROM client WHERE idClient = {0} ", client.idClient);
+            Client client = new Client();
+            string find = string.Format("SELECT * FROM client WHERE idClient = {0} ", clientId);
             try
             {
                 _command = new SqlCommand(find, _connectionDB.GetCon());
                 _connectionDB.GetCon().Open();
 
-                SqlDataReader reader = _command.ExecuteReader();
-                temRecords = reader.Read();
+                SqlDataReader reader = _command.ExecuteReader();                
 
-                if(temRecords)
+                if(reader.Read())
                 {
+                    client.idClient = Convert.ToInt64(reader[0].ToString());
                     client.name = reader[1].ToString();
                     client.address = reader[2].ToString();
                     client.phone = reader[3].ToString();
@@ -162,7 +165,7 @@ namespace Model.Dao
                 _connectionDB.GetCon().Close();
                 _connectionDB.CloseDB();
             }
-            return temRecords;
+            return client;
         }
 
         public List<Client> findAll()
@@ -216,8 +219,8 @@ namespace Model.Dao
 
         public void update(Client client)
         {
-            string update = string.Format("UPDATE client set name={0}, address={1}, phone={2}, pps={3}",
-                client.name, client.address, client.phone, client.pps);
+            string update = string.Format("UPDATE client set name='{0}', address='{1}', phone='{2}', pps='{3}' where idClient={4}",
+                client.name, client.address, client.phone, client.pps, client.idClient);
 
             try
             {
@@ -227,8 +230,39 @@ namespace Model.Dao
                 SqlDataReader reader = _command.ExecuteReader();
               
 
-                _command.ExecuteNonQuery();
             }
+            catch (SqlException sql)
+            {
+
+                Console.WriteLine(sql);
+                throw sql;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex);
+                throw ex;
+            }
+            finally
+            {
+                _connectionDB.GetCon().Close();
+                _connectionDB.CloseDB();
+            }
+        }
+
+        public void updateSP(Client client)
+        {
+            string updateOld = string.Format("UPDATE client set name='{0}', address='{1}', phone='{2}', pps='{3}' where idClient={4}",
+                client.name, client.address, client.phone, client.pps, client.idClient);
+            string update = string.Format("sp_updateClient '{0}','{1}','{2}','{3}', '{4}'", client.idClient, client.name, client.address, client.phone, client.pps);
+            try
+            {
+                _command = new SqlCommand(update, _connectionDB.GetCon());
+                _connectionDB.GetCon().Open();
+                //SqlDataReader reader = _command.ExecuteReader();
+                _command.ExecuteNonQuery(); //No need to return anything
+            }
+            
             catch (SqlException sql)
             {
 
@@ -260,7 +294,7 @@ namespace Model.Dao
 
                 SqlDataReader reader = _command.ExecuteReader();
                 temRecord = reader.Read();
-                if(temRecord)
+                /*if(temRecord)
                 {
                     client.idClient = Convert.ToInt64(reader[0].ToString());
 
@@ -268,7 +302,7 @@ namespace Model.Dao
                     client.address = reader[2].ToString();
                     client.phone = reader[3].ToString();
                     client.pps = reader[4].ToString();
-                }
+                } */
 
                 
             }
@@ -293,11 +327,11 @@ namespace Model.Dao
             return temRecord;
         }
 
-        public List<Client> findAllClient(string name)
+        public List<Client> findAllClient(string name, string code, string pps)
         {
 
             List<Client> clientList = new List<Client>();
-            string showAll = string.Format($"SELECT * FROM client WHERE name like %{0}% ORDER BY name ASC", name);
+            string showAll = string.Format("SELECT * FROM client WHERE name like '%{0}%' OR idclient = '{1}' OR pps LIKE '%{2}%' ORDER BY name ASC", name, code, pps);
             try
             {
                 _command = new SqlCommand(showAll, _connectionDB.GetCon());
@@ -341,6 +375,8 @@ namespace Model.Dao
             return clientList;
 
         }
+
+       
 
     }
 }

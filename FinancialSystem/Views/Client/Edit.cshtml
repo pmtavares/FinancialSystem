@@ -1,63 +1,60 @@
 ﻿@model Model.Entity.Client
-
 @{
-    ViewBag.Title = "New Create";
+    ViewBag.Title = "Edit Client";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="well well-sm text-primary text-center">
-    @ViewBag.MessageBegin
-</div>
-
-
+<h3>Edit Client</h3>
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
         <fieldset>
             <div class="form-group">
+                @Html.LabelFor(model => model.idClient, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.idClient, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-6">
                     @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.pps, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-4">
-                    @Html.EditorFor(model => model.pps, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
-                    @Html.ValidationMessageFor(model => model.pps, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.pps, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.address, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
                     @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-4">
                     @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
+            <div class="form-actions col-md-offset-2">
+                <input class="btn btn-primary" type="submit" name="btnsave" value="Save" />|
+                @Html.ActionLink("Back to the list", "Index")
+            </div>
+
         </fieldset>
-        <div class="form-actions col-md-offset-2">
-            <input class="btn btn-primary" type="submit" name="btnsalvar" value="Salvar" />
-            @Html.ActionLink("Back to List", "Index")
-        </div>
     </div>
 }
+
 
 @if (ViewBag.Message != null)
 {
     if (ViewBag.Message == "Ok")
     {
         <div class="text-primary text-success text-center alert alert-info">
-            Client Created
+            Client Updated
         </div>
     }
     else
@@ -68,7 +65,4 @@
     }
 
 }
-
-
-
 

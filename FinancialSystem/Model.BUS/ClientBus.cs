@@ -11,12 +11,12 @@ namespace Model.BUS
     {
 
         private readonly ClientDao _clientDao;
-        private readonly Messages<Client> _message;
+        private readonly IMessages<Client> _message;
 
         public ClientBus()
         {
             _clientDao = new ClientDao();
-            _message = new Messages<Client>("Client");
+            _message = new ClientMessages("Client");
         }
 
         public string create(Client client)
@@ -28,7 +28,7 @@ namespace Model.BUS
             if (name == null)
             {
                 //Message here
-                return _message.ErrorMessageRegister(20);
+                return _message.ErrorMessages(20);
             }
             else
             {
@@ -37,7 +37,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //message here
-                    return _message.ErrorMessageRegister(2);
+                    return _message.ErrorMessages(2);
                 }
 
             }
@@ -47,7 +47,7 @@ namespace Model.BUS
             if (address == null)
             {
                 //Message here
-                return _message.ErrorMessageRegister(60);
+                return _message.ErrorMessages(60);
             }
             else
             {
@@ -56,7 +56,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //Message here
-                    return _message.ErrorMessageRegister(6);
+                    return _message.ErrorMessages(6);
                 }
 
             }
@@ -66,7 +66,7 @@ namespace Model.BUS
             if (phone == null)
             {
                 //Message here
-                return _message.ErrorMessageRegister(3);
+                return _message.ErrorMessages(3);
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //Message here
-                    return _message.ErrorMessageRegister(35);
+                    return _message.ErrorMessages(35);
                 }
 
             }
@@ -84,7 +84,7 @@ namespace Model.BUS
             if (pps == null)
             {
                 //Message
-                return _message.ErrorMessageRegister(50); ;
+                return _message.ErrorMessages(50); ;
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Model.BUS
                 if (!verification)
                 {
                     //Message
-                    return _message.ErrorMessageRegister(55);
+                    return _message.ErrorMessages(55);
                 }
 
             }
@@ -102,12 +102,12 @@ namespace Model.BUS
             Client objClient= new Client();
             objClient.idClient = client.idClient;
 
-            verification = !_clientDao.find(objClient);
+            Client findClient = _clientDao.find(objClient.idClient);
 
-            if (!verification)
+            if (findClient == null)
             {
                 //Message here
-                return _message.ErrorMessageRegister(8);
+                return _message.ErrorMessages(8);
             }
             //end validate duplication
 
@@ -119,19 +119,20 @@ namespace Model.BUS
             if (!verification)
             {
                 //Message here
-                return _message.ErrorMessageRegister(58);
+                return _message.ErrorMessages(58);
             }
             //end validate pps 
 
             //If there is no error
             //Message here
             _clientDao.createSP(client);
-            return _message.CreatedMessage("Ok");
+            return _message.SuccessMessage("Ok");
         }
 
-        public void update(Client client)
+        public string update(Client client)
         {
             bool verification = true;
+            Client clientToUpdate = new Client();
 
             string code = client.idClient.ToString();
             long id = 0;
@@ -139,7 +140,7 @@ namespace Model.BUS
             if (code == null)
             {
                 //Message here
-                return;
+                return _message.ErrorMessages(9);
             }
             else
             {
@@ -152,7 +153,7 @@ namespace Model.BUS
                     if (!verification)
                     {
                         //message here
-                        return;
+                        return _message.ErrorMessages(0);
                     }
                 }
                 catch (Exception e)
@@ -163,106 +164,136 @@ namespace Model.BUS
 
             }
 
-            string name = client.name;
-            if (name == null)
+            clientToUpdate.name = client.name;
+            if (clientToUpdate.name == null)
             {
                 //Message
-                return;
+                return _message.ErrorMessages(20);
             }
             else
             {
-                name = client.name.Trim();
-                verification = name.Length <= 30 && name.Length > 0;
+                clientToUpdate.name = client.name.Trim();
+                verification = clientToUpdate.name.Length <= 30 && clientToUpdate.name.Length > 0;
                 if (!verification)
                 {
                     //message
-                    return;
+                    return _message.ErrorMessages(2);
                 }
 
             }
 
-            string address = client.address;
-            if (address == null)
+            clientToUpdate.address = client.address;
+            if (clientToUpdate.address == null)
             {
                 //Message
-                return;
+                return _message.ErrorMessages(60);
             }
             else
             {
-                address = client.address.Trim();
-                verification = address.Length <= 50 && address.Length > 0;
+                clientToUpdate.address = client.address.Trim();
+                verification = clientToUpdate.address.Length <= 50 && clientToUpdate.address.Length > 0;
                 if (!verification)
                 {
                     //Message
-                    return;
+                    return _message.ErrorMessages(6); ;
                 }
 
             }
 
-            string pps = client.pps;
-            if (pps == null)
+            clientToUpdate.pps = client.pps;
+            if (clientToUpdate.pps == null)
             {
                 //Message
-                return;
+                return _message.ErrorMessages(50);
             }
             else
             {
-                address = client.pps.Trim();
-                verification = pps.Length <= 9 && address.Length > 7;
+                clientToUpdate.pps = client.pps.Trim();
+                verification = clientToUpdate.pps.Length <= 9 && clientToUpdate.pps.Length > 7;
                 if (!verification)
                 {
                     //Message
-                    return;
+                    return _message.ErrorMessages(55);
                 }
 
             }
 
-            Client objClient = new Client();
-            objClient.pps = client.pps;
-
-            verification = !_clientDao.findClientByPps(objClient);
-            if (!verification)
+            //verification = _clientDao.findClientByPps(client);
+            //if (!verification)
             {
                 //Message here
-                return;
+              //  return _message.ErrorMessages(59);
             }
             //end validate pps
+            clientToUpdate.phone = client.phone;
+            if (clientToUpdate.phone == null)
+            {
+                //Message here
+                return _message.ErrorMessages(3);
+            }
+            else
+            {
+                clientToUpdate.phone = client.phone.Trim();
+                verification = clientToUpdate.phone.Length <= 15 && clientToUpdate.phone.Length > 6;
+                if (!verification)
+                {
+                    //Message here
+                    return _message.ErrorMessages(35);
+                }
+
+            }
 
             //If there is error
             //Message here
-            _clientDao.update(client);
-            return;
+            clientToUpdate.idClient = client.idClient;
+            _clientDao.updateSP(clientToUpdate);
+            return _message.SuccessMessage("Ok");
         }
-        public void delete(Client client)
+        public string delete(long id)
         {
-            bool verification = true;
+            Client client = new Client();
 
             //verifying if exists
-            Client objClient = new Client();
-            objClient.idClient = client.idClient;
+            //Client objClient = new Client();
+            //objClient.idClient = client.idClient;
 
-            verification = _clientDao.find(objClient);
-            if (!verification)
+            client = _clientDao.find(id);
+            if (client == null)
             {
-                return;
+                return _message.ErrorMessages(95);
             }
 
-            _clientDao.delete(objClient);
-            return;
+            _clientDao.delete(client);
+            return _message.SuccessMessage("Message Deleted");
         }
 
-        public bool find(Client objClient)
+        public Client find(long id)
         {
-            return _clientDao.find(objClient);
+            return _clientDao.find(id);
         }
 
         public List<Client> findAll()
         {
             return _clientDao.findAll();
         }
-        public List<Client> findAllClients(Client objCLient)
+        public List<Client> findAllClients(string clientName, string clientCode, string clientPps)
         {
-            return _clientDao.findAllClient(objCLient.name);
+
+            if(clientCode == "" || clientCode is null)
+            {
+                clientCode = "0";
+            }
+
+            if(clientPps == "" || clientPps is null)
+            {
+                clientPps = "0";
+            }
+
+            if (clientName == "" && (clientPps == "0" || clientCode == "0"))
+            {
+                return _clientDao.findAll();
+            }
+            return _clientDao.findAllClient(clientName, clientCode, clientPps);
         }
     }
 }

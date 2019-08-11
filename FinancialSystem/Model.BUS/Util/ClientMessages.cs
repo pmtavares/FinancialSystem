@@ -11,27 +11,27 @@ using System.Threading.Tasks;
  */
 namespace Model.BUS.Util
 {
-    public class Messages<ClassType> where ClassType: class
+    //public class Messages<ClassType> where ClassType: class //IMessages
+    public class ClientMessages: IMessages<Client>
     {
         private readonly string objName;
-        public Messages(string name)
+        public ClientMessages(string name)
         {
             objName = name;
         }
 
-        public string ErrorMessageRegister(int code)
-        {
+              
 
+        public string ErrorMessages(int code)
+        {
             switch (code)
             {
 
                 case 1000:
                     return "Erro PPS, Dont insert letters";
 
-
                 case 20:
-                    return "Insert"+ objName + "name";
-
+                    return "Insert" + objName + "name";
 
                 case 2:
                     return "Name cannot be more than 30 characteres";
@@ -43,6 +43,8 @@ namespace Model.BUS.Util
                     return "PPS must contain between 8 and 9 characteres";
                 case 58:
                     return "PPS already exists";
+                case 59:
+                    return "PPS does not exists";
                 case 60:
                     return "Please insert the address";
 
@@ -52,23 +54,25 @@ namespace Model.BUS.Util
 
                 case 8:
                     return "Client already exists";
+                case 9:
+                    return "Client does not exists";
 
                 case 3:
                     return "Phone number is required";
 
                 case 35:
                     return "Phone lenght is incorrect";
+                case 95:
+                    return "Error deleting the client";
 
                 default:
                     return "Unknown error";
 
 
-
-
             }
         }
 
-        public string CreatedMessage(string msg)
+        public string SuccessMessage(string msg)
         {
             return msg;
         }

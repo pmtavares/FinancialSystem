@@ -264,7 +264,7 @@ namespace Model.BUS
             }
 
             _clientDao.delete(client);
-            return _message.SuccessMessage("Message Deleted");
+            return _message.SuccessMessage("Client Deleted");
         }
 
         public Client find(long id)

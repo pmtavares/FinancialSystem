@@ -46,7 +46,7 @@ namespace Model.Dao
 
         public void CreateSP(Category category)
         {
-            string create = string.Format("sp_addCategory '{0}', '{1}', '{2}', '{3}'", category.idCategory, category.name, category.description, category.status);
+            string create = string.Format("sp_addCategory '{0}', '{1}', '{2}'", category.idCategory, category.name, category.description);
             try
             {
                 _command = new SqlCommand(create, _connectionDB.GetCon());
@@ -212,7 +212,7 @@ namespace Model.Dao
                 _command.Parameters.Add(ParId);
 
                 //Execute the command
-                resp = _command.ExecuteNonQuery() == 1 ? "OK" : "Not deleted";
+                resp = _command.ExecuteNonQuery() == 1 ? "Category Deleted" : "Not deleted";
 
             }
             catch (SqlException sql)

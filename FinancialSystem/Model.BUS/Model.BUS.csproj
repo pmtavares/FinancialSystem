@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryBus.cs" />
     <Compile Include="ClientBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\IMessages.cs" />

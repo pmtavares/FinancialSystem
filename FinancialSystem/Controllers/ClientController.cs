@@ -60,14 +60,10 @@ namespace FinancialSystem.Controllers
                 if (msg.Equals(msgOk))
                 {
                     ModelState.Clear();
-                }
-                
-
+                }         
 
             }
             return View();
-
-
         }
 
         // GET: Client/Edit/5

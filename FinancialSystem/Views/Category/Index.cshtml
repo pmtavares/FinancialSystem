@@ -1,0 +1,42 @@
+﻿@model List<Model.Entity.Category>
+@{
+    ViewBag.Title = "List of Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (ViewBag.DeleteMessage != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.DeleteMessage
+    </div>
+}
+
+
+<h2 class="text-center text-success">Categories List</h2>
+<div class="well well-sm"><a class="btn btn-primary" href="~/Category/Create">New</a></div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr class="bg-primary">
+            <th>Code</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th colspan="3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var objCategory in Model)
+        {
+            <tr>
+                <td>@objCategory.idCategory</td>
+                <td>@objCategory.name</td>
+                <td>@objCategory.description</td>
+                <td><a class="btn btn-success" href="~/Category/Details/@objCategory.idCategory"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                <td><a class="btn btn-info" href="~/Category/Edit/@objCategory.idCategory"><span class="fa fa-edit"></span></a></td>
+                <td><a class="btn btn-danger" href="~/Category/Delete/@objCategory.idCategory"><span class="fa fa-book"></span></a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

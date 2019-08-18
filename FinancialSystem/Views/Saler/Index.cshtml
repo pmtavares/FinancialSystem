@@ -1,0 +1,106 @@
+﻿@model List<Model.Entity.Saler>
+
+@{
+    ViewBag.Title = "List of Salers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a href="">Reports</a>
+@if (ViewBag.DeleteMessage != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.DeleteMessage
+    </div>
+}
+
+<div class="row  align-bottom">
+    <div class="col-md-9">
+        <h3 class="text-center text-success">List of Salers</h3>
+    </div>
+
+</div>
+<div class="row align-bottom">
+    <div class="col-md-3">
+        <a class="btn btn-primary" href="~/Client/Create">New</a>
+    </div>
+</div>
+
+
+<div class="well well-sm">
+    <div class="row">
+
+        <div class="col-md-12">
+            @using (Html.BeginForm())
+            {
+                <div class="form-horizontal">
+                    <div class="col-md-1">
+                        <h5>Search:</h5>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        @Html.Label("Name", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBox("txtname", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        @Html.Label("Phone", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextBox("txtphone", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.Label("PPS", new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBox("txtpps", null, new { @class = "form-control", @type = "number" })
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-1">
+                    <input class="btn btn-primary" type="submit" value="Search" />
+                </div>
+
+            }
+        </div>
+    </div>
+
+
+</div>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr class="bg-primary">
+            <th>Code</th>
+            <th>Name</th>
+            <th>PPS</th>
+            <th>Phone</th>
+            <th colspan="3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var obj in Model)
+        {
+            <tr>
+
+                <td>@obj.idSaler</td>
+                <td>@obj.name</td>
+                <td>@obj.pps</td>
+                <td>@obj.phone</td>
+                <td><a class="btn btn-success" href="~/Client/Details/@obj.idSaler"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                <td><a class="btn btn-info" href="~/Client/Edit/@obj.idSaler"><span class="fa fa-edit"></span></a></td>
+                <td><a class="btn btn-danger" href="~/Client/Delete/@obj.idSaler"><span class="fa fa-book"></span></a></td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
+
+
+

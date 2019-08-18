@@ -1,0 +1,62 @@
+﻿@model Model.Entity.Saler
+
+@{
+    ViewBag.Title = "New Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="well well-sm text-primary text-center">
+    @ViewBag.MessageBegin
+</div>
+
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.pps, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.pps, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.pps, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions col-md-offset-2">
+            <input class="btn btn-primary" type="submit" name="btnsave" value="Save" />
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.Message == "Ok")
+    {
+        <div class="text-primary text-success text-center alert alert-info">
+            Saler Created
+        </div>
+    }
+    else
+    {
+        <div class="text-primary text-success text-center alert alert-danger">
+            @ViewBag.Message
+        </div>
+    }
+
+}

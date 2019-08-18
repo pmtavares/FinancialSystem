@@ -49,6 +49,7 @@
     <Compile Include="CategoryBus.cs" />
     <Compile Include="ClientBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SalerBus.cs" />
     <Compile Include="Util\IMessages.cs" />
     <Compile Include="Util\ClientMessages.cs" />
   </ItemGroup>

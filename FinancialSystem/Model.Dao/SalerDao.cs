@@ -51,7 +51,7 @@ namespace Model.Dao
         public void createSP(Saler saler)
         {
             //"sp_addsaler{1},{2},{3},{4}", + saler.idsaler + "," + saler.name + ", " + saler.address + "," + saler.pps ;
-            string create = string.Format("sp_addsaler '{0}','{1}','{2}'", saler.name, saler.pps, saler.phone);
+            string create = string.Format("sp_addsaler '{0}','{1}','{2}', '{3}'",saler.idSaler, saler.name, saler.pps, saler.phone);
             try
             {
                 _command = new SqlCommand(create, _connectionDB.GetCon());
@@ -97,7 +97,7 @@ namespace Model.Dao
                 //Initialize variables
                 SqlParameter ParId = new SqlParameter();
                 ParId.ParameterName = "@code"; //same name as in the procedure
-                ParId.SqlDbType = SqlDbType.Int;
+                ParId.SqlDbType = SqlDbType.VarChar;
                 ParId.Value = saler.idSaler;
 
                 _command.Parameters.Add(ParId);
@@ -129,7 +129,7 @@ namespace Model.Dao
         public Saler find(string salerId)
         {
             Saler saler = new Saler();
-            string find = string.Format("SELECT * FROM saler WHERE idsaler = {0} ", salerId);
+            string find = string.Format("SELECT * FROM saler WHERE idsaler = '{0}' ", salerId);
             try
             {
                 _command = new SqlCommand(find, _connectionDB.GetCon());
@@ -219,7 +219,7 @@ namespace Model.Dao
 
         public void update(Saler saler)
         {
-            string update = string.Format("UPDATE saler set name='{0}', phone='{1}', pps='{2}' where idsaler={3}",
+            string update = string.Format("UPDATE saler set name='{0}', phone='{1}', pps='{2}' where idsaler='{3}'",
                 saler.name, saler.pps, saler.phone, saler.idSaler);
 
             try
@@ -322,7 +322,7 @@ namespace Model.Dao
         {
 
             List<Saler> salerList = new List<Saler>();
-            string showAll = string.Format("SELECT * FROM saler WHERE name like '%{0}%' OR idSaler = '{1}' OR pps LIKE '%{2}%' ORDER BY name ASC", name, code, pps);
+            string showAll = string.Format("SELECT * FROM saler WHERE name like '%{0}%' OR idSaler like '%{1}%' OR pps like'%{2}%' ORDER BY name ASC", name, code, pps);
             try
             {
                 _command = new SqlCommand(showAll, _connectionDB.GetCon());

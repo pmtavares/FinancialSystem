@@ -66,17 +66,38 @@ namespace Model.BUS
 
         public string delete(string id)
         {
-            Saler saler = new Saler();
+            Saler saler = _salerDao.find(id);
 
-
-            saler = _salerDao.find(id);
             if (saler == null)
             {
-                return "Category does not exist";
+                return "Saler does not exist";
             }
 
 
             return _salerDao.delete(saler);
+        }
+
+        public List<Saler> findAll(string name, string code, string pps)
+        {
+
+            if (code == "" || code == null)
+            {
+                code = "NULL";
+            }
+
+            if (pps == "" || pps == null)
+            {
+                pps = "NULL";
+            }
+            if (name == "" || name == null)
+
+                name = "NULL";
+
+            if (name == null && (pps == null && code == null))
+            {
+                return _salerDao.findAll();
+            }
+            return _salerDao.findAllSaler(name, code, pps);
         }
     }
 }

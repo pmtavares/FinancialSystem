@@ -49,6 +49,7 @@
     <Compile Include="CategoryBus.cs" />
     <Compile Include="ClientBus.cs" />
     <Compile Include="MethodPaymentBus.cs" />
+    <Compile Include="ProductBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SalerBus.cs" />
     <Compile Include="Util\IMessages.cs" />

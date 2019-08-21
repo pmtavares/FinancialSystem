@@ -50,6 +50,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="MethodPayment.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saler.cs" />
   </ItemGroup>

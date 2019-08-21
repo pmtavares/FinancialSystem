@@ -172,6 +172,7 @@
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MethodPaymentController.cs" />
     <Compile Include="Controllers\SalerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -318,6 +319,11 @@
     <Content Include="Views\Saler\Edit.cshtml" />
     <Content Include="Views\Saler\Delete.cshtml" />
     <Content Include="Views\Saler\Create.cshtml" />
+    <Content Include="Views\MethodPayment\Index.cshtml" />
+    <Content Include="Views\MethodPayment\Details.cshtml" />
+    <Content Include="Views\MethodPayment\Create.cshtml" />
+    <Content Include="Views\MethodPayment\Edit.cshtml" />
+    <Content Include="Views\MethodPayment\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

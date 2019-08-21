@@ -49,6 +49,7 @@
     <Compile Include="CategoryDao.cs" />
     <Compile Include="ClientDao.cs" />
     <Compile Include="ConnectionDb.cs" />
+    <Compile Include="MethodPaymentDao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Required.cs" />

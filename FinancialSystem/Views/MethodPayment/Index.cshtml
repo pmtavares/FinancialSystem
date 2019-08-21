@@ -1,0 +1,42 @@
+﻿@model List<Model.Entity.MethodPayment>
+@{
+    ViewBag.Title = "List of Methods";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (ViewBag.DeleteMessage != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.DeleteMessage
+    </div>
+}
+
+
+<h2 class="text-center text-success">Methods List</h2>
+<div class="well well-sm"><a class="btn btn-primary" href="~/MethodPayment/Create">New</a></div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr class="bg-primary">
+            <th>Code</th>
+            <th>Name</th>
+            <th>Other Details</th>
+            <th colspan="3">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@obj.numPay</td>
+                <td>@obj.name</td>
+                <td>@obj.othersDetails</td>
+                <td><a class="btn btn-success" href="~/MethodPayment/Details/@obj.numPay"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                <td><a class="btn btn-info" href="~/MethodPayment/Edit/@obj.numPay"><span class="fa fa-edit"></span></a></td>
+                <td><a class="btn btn-danger" href="~/MethodPayment/Delete/@obj.numPay"><span class="fa fa-book"></span></a></td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

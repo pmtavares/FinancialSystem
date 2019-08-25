@@ -21,8 +21,8 @@ namespace Model.Dao
 
         public void create(Product product)
         {
-            string create = string.Format("INSERT INTO product(name, priceunit, idcategory) " +
-                "VALUES ({0}, {1}, {2})", product.name, product.unitPrice, product.category);
+            string create = string.Format("INSERT INTO product(idProduct, name, priceunit, idcategory) " +
+                "VALUES ('{0}', '{1}', '{2}', '{3}')",product.idProduct, product.name, product.unitPrice, product.category);
             try
             {
                 _command = new SqlCommand(create, _connectionDB.GetCon());

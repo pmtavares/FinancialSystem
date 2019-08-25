@@ -17,14 +17,14 @@ namespace Model.BUS
             _productDao = new ProductDao();
         }
 
-        public string create(Product saler)
+        public string create(Product product)
         {
             //Validation
                        
-            _productDao.create(saler);
+            _productDao.create(product);
 
             //Message Category
-            return "Created";
+            return "Ok";
         }
 
         public string update(Product product)

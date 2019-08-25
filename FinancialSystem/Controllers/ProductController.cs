@@ -1,4 +1,5 @@
 ﻿using Model.BUS;
+using Model.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,62 +11,97 @@ namespace FinancialSystem.Controllers
     public class ProductController : Controller
     {
 
-        private readonly ProductBus _ProductBus;
+        private readonly ProductBus _productBus;
         private const string msgOk = "Ok";
 
         public ProductController()
         {
-            _ProductBus = new ProductBus();
+            _productBus = new ProductBus();
         }
         // GET: Product
         public ActionResult Index()
         {
-            return View();
+            CategoryBus _categoryBus = new CategoryBus();
+            List<Category> category = _categoryBus.findAll();
+            SelectList list = new SelectList(category, "idCategory", "name");
+            ViewBag.ListCategories = list;
+            List<Product> productsList = _productBus.findAll();
+            ViewBag.DeleteMessage = TempData["deleteMessage"];
+            return View(productsList);
         }
 
         // GET: Product/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            CategoryBus _categoryBus = new CategoryBus();
+            Product product = _productBus.find(id);
+            List<Category> category = _categoryBus.findAll();
+            SelectList list = new SelectList(category, "idCategory", "name");
+            ViewBag.ListCategories = list;
+            return View(product);
         }
 
         // GET: Product/Create
         public ActionResult Create()
         {
+            CategoryBus _categoryBus = new CategoryBus();
+            List<Category> category = _categoryBus.findAll();
+            SelectList list = new SelectList(category, "idCategory", "name");
+            ViewBag.ListCategories = list;
             return View();
         }
 
         // POST: Product/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Product product)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            CategoryBus _categoryBus = new CategoryBus();
+            List<Category> category = _categoryBus.findAll();
+            SelectList list = new SelectList(category, "idCategory", "name");
+            ViewBag.ListCategories = list;
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                string msg = _productBus.create(product);
+                ViewBag.Message = msg;
+                if (msg.Equals(msgOk))
+                {
+                    ModelState.Clear();
+                }
+
             }
+            return View();
         }
 
         // GET: Product/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            CategoryBus _categoryBus = new CategoryBus();
+            List<Category> category = _categoryBus.findAll();
+            SelectList list = new SelectList(category, "idCategory", "name");
+
+            ViewBag.ListCategories = list;
+            Product product = _productBus.find(id);
+            return View(product);
+
         }
 
         // POST: Product/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Product product)
         {
+
+            CategoryBus _categoryBus = new CategoryBus();
+            List<Category> data = _categoryBus.findAll();
+            SelectList list = new SelectList(data, "idCategory", "name");
+            ViewBag.ListCategories = list;
+            
             try
             {
-                // TODO: Add update logic here
+                string msg = _productBus.update(product);
+                ViewBag.Message = msg;
 
-                return RedirectToAction("Index");
+                return View();
             }
             catch
             {
@@ -74,24 +110,29 @@ namespace FinancialSystem.Controllers
         }
 
         // GET: Product/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            Product product = new Product();
+            product = _productBus.find(id);
+            return View(product);
+
         }
 
         // POST: Product/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpPost,  ActionName("Delete")]
+        public ActionResult ConfirmDelete(string id)
         {
             try
             {
-                // TODO: Add delete logic here
 
+                string msg = _productBus.delete(id);
+                TempData["deleteMessage"] = msg;
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
+            
             }
         }
     }

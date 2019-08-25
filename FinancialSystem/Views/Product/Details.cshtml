@@ -1,0 +1,30 @@
+﻿@model Model.Entity.Product
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">Product Information</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Code</dt>
+            <dd>@Model.idProduct</dd>
+
+            <dt>Name</dt>
+            <dd>@Model.name</dd>
+
+
+            <dt>PPS</dt>
+            <dd>@Model.unitPrice</dd>
+
+            <dt>Address</dt>
+            <dd>@Model.category</dd>
+
+        </dl>
+    </div>
+    @Html.ActionLink("Back to list", "Index", new { }, new { @class = "form-actions btn btn-primary" })
+
+</div>
+

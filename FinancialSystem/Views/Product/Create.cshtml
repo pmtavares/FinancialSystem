@@ -1,0 +1,77 @@
+﻿@model Model.Entity.Product
+
+@{
+    ViewBag.Title = "New Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="well well-sm text-primary text-center">
+    @ViewBag.MessageBegin
+</div>
+
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.idProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.idProduct, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.idProduct, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.unitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.unitPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8 dropdown">
+                    @Html.DropDownListFor(model => model.category, ViewBag.ListCategories as SelectList, "Select a category")
+                    @Html.ValidationMessageFor(model => model.category, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="form-actions col-md-offset-2">
+            <input class="btn btn-primary" type="submit" name="btnsave" value="Save" />
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.Message == "Ok")
+    {
+        <div class="text-primary text-success text-center alert alert-info">
+            Product Created
+        </div>
+    }
+    else
+    {
+        <div class="text-primary text-success text-center alert alert-danger">
+            @ViewBag.Message
+        </div>
+    }
+
+}
+
+
+
+
+
+

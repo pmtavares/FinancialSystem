@@ -52,7 +52,7 @@ namespace Model.Dao
         {
             string resp;
             SqlConnection SqlCon = _connectionDB.GetCon();
-            string delete = "DELETE FROM product WHERE idproduct=" + product.idProduct;
+            string delete = "DELETE FROM product WHERE idproduct='" + product.idProduct+ "'";
             try
             {
                 _command = new SqlCommand(delete, SqlCon);
@@ -175,7 +175,7 @@ namespace Model.Dao
 
         public void update(Product product)
         {
-            string update = string.Format("UPDATE product set name='{0}', unitprice='{1}', category='{2}' where idproduct='{3}'",
+            string update = string.Format("UPDATE product set name='{0}', priceunit='{1}', idcategory='{2}' where idproduct='{3}'",
                 product.name, product.unitPrice, product.category, product.idProduct);
 
             try

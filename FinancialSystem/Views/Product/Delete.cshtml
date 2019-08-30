@@ -1,8 +1,41 @@
-﻿
+﻿@model Model.Entity.Product
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h3>Confirm Delete?</h3>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Are you sure you want to delete?</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Code</dt>
+            <dd>@Model.idProduct</dd>
+
+            <dt>Name</dt>
+            <dd>@Model.name</dd>
+
+
+            <dt>Description</dt>
+            <dd>@Model.category</dd>
+
+            <dt>Unit price</dt>
+            <dd>@Model.unitPrice</dd>
+
+        </dl>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index", new { }, new { @class = "form-actions btn btn-primary" })
+        </div>
+    }
+
+
+</div>
+
 

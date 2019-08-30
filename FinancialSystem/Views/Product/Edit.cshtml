@@ -1,8 +1,67 @@
-﻿
+﻿@model Model.Entity.Product
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+
+<h3>Edit Product</h3>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                @Html.LabelFor(model => model.idProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.idProduct, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.unitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.unitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.category, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.category, ViewBag.ListCategories as SelectList, "Select a category")
+
+                </div>
+            </div>
+            <div class="form-actions col-md-offset-2">
+                <input class="btn btn-primary" type="submit" name="btnsave" value="Save" />|
+                @Html.ActionLink("Back to the list", "Index")
+            </div>
+
+        </fieldset>
+    </div>
+}
+
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.Message == "Ok")
+    {
+        <div class="text-primary text-success text-center alert alert-info">
+            Client Updated
+        </div>
+    }
+    else
+    {
+        <div class="text-primary text-success text-center alert alert-danger">
+            @ViewBag.Message
+        </div>
+    }
+
+}
+
 
